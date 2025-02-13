@@ -1,0 +1,42 @@
+     1                                 %line 1+1 Q3.s
+     2                                 [global _start]
+     3                                 
+     4                                 [section .data]
+     5 00000000 0F                      n db 15
+     6 00000001 0000                    Sum dw 0
+     7                                 
+     8                                 [section .text]
+     9                                 _start:
+    10 00000000 B801000000              mov eax, 1
+    11 00000005 8A1C25[00000000]        mov bl, byte[n]
+    12 0000000C 803C25[00000000]01      cmp byte[n], 1
+    13 00000014 7421                    je endProgramQ3
+    14                                 
+    15 00000016 FECB                    dec bl
+    16 00000018 88D9                    mov cl, bl
+    17                                 
+    18 0000001A FFC6                    inc esi
+    19 0000001C BF00000000              mov edi, 0
+    20                                 
+    21                                 sumXLoop:
+    22 00000021 FFC6                    inc esi
+    23 00000023 83FF00                  cmp edi, 0
+    24 00000026 7403                    je plus
+    25 00000028 83FF01                  cmp edi, 1
+    26 0000002B 7404                    je subtrack
+    27                                 plus:
+    28 0000002D 01F0                    add eax, esi
+    29 0000002F FFC7                    inc edi
+    30 00000031 EB02                    jmp continueLoop
+    31                                 subtrack:
+    32 00000033 29F0                    sub eax, esi
+    33 00000035 FFCF                    dec edi
+    34                                 continueLoop:
+    35 00000037 E2E6                    loop sumXLoop
+    36                                 
+    37                                 endProgramQ3:
+    38 00000039 890425[00000000]        mov dword[Sum], eax
+    39                                 
+    40 00000040 48C7C03C000000          mov rax,60
+    41 00000047 48C7C700000000          mov rdi,0
+    42 0000004E 0F05                    syscall
